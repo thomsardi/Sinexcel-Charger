@@ -3,7 +3,6 @@
 
 SinexcelSer1000::SinexcelSer1000()
 {
-    ESP32SJA1000Class();
     _commandList.setStorage(_requestCommand);
     _protocolCode = 0x38; //SER1000 protocol code for upper controller
     _monitorGroup = 0x1C;
@@ -48,14 +47,14 @@ int SinexcelSer1000::run()
 {
     int isFrameUpdated, isDataUpdated;
     int status = 0;
-    Serial.println(_commandList.size());
+    // Serial.println(_commandList.size());
     if (_commandList.size() > 0)
     {
         RequestCommand rc = _commandList.at(0);
         this->_groupNumber = rc.groupNumber;
         this->_subAddress = rc.subAddress;
-        isFrameUpdated = updateFrameId(rc.cmd);
-        isDataUpdated = updateData(rc.cmd, rc.value);
+        isFrameUpdated = updateFrameId(rc.msgId);
+        isDataUpdated = updateData(rc.msgId, rc.value);
         if(isFrameUpdated && isDataUpdated)
         {
             beginExtendedPacket(_frameId);
@@ -67,7 +66,7 @@ int SinexcelSer1000::run()
     return status;
 }
 
-int SinexcelSer1000::sendRequest(int cmd, int32_t value, uint8_t groupNumber, uint8_t subAddress)
+int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, uint8_t subAddress)
 {
     RequestCommand rc;
     int status = -1;
@@ -82,7 +81,7 @@ int SinexcelSer1000::sendRequest(int cmd, int32_t value, uint8_t groupNumber, ui
         _groupNumber = groupNumber;
         _subAddress = subAddress;
     }
-    rc.cmd = cmd;
+    rc.msgId = msgId;
     rc.groupNumber = _groupNumber;
     rc.subAddress = _subAddress;
     rc.value = value;
@@ -94,11 +93,11 @@ int SinexcelSer1000::sendRequest(int cmd, int32_t value, uint8_t groupNumber, ui
     return status;
 }
 
-int SinexcelSer1000::updateFrameId(int cmd)
+int SinexcelSer1000::updateFrameId(int msgId)
 {
-    switch (cmd)
+    switch (msgId)
     {
-        case Module_On_Off_32:
+        case MessageIdRequest::Module_On_Off_32:
             _protocolCode = 0x38;
             _subAddress = 0;
             _monitorGroup = 0x1c;
@@ -106,7 +105,7 @@ int SinexcelSer1000::updateFrameId(int cmd)
             buildFrameId();
             return 1;
             break;
-        case Module_On_Off_64:
+        case MessageIdRequest::Module_On_Off_64:
             _protocolCode = 0x38;
             _subAddress = 0;
             _monitorGroup = 0x1c;
@@ -114,7 +113,7 @@ int SinexcelSer1000::updateFrameId(int cmd)
             buildFrameId();
             return 1;
             break;
-        case Module_Online_Status_32:
+        case MessageIdRequest::Module_Online_Status_32:
             _protocolCode = 0x2C;
             _subAddress = _groupNumber;
             _monitorGroup = _groupNumber;
@@ -123,7 +122,7 @@ int SinexcelSer1000::updateFrameId(int cmd)
             buildFrameId();
             return 1;
             break;
-        case Module_Online_Status_64:
+        case MessageIdRequest::Module_Online_Status_64:
             _protocolCode = 0x2C;
             _subAddress = _groupNumber;
             _monitorGroup = _groupNumber;
@@ -132,35 +131,35 @@ int SinexcelSer1000::updateFrameId(int cmd)
             buildFrameId();
             return 1;
             break;    
-        case Module_Voltage_Mode:
+        case MessageIdRequest::Module_Voltage_Mode:
             _protocolCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
             buildFrameId();
             return 1;
             break;
-        case Module_Output_Voltage:
+        case MessageIdRequest::Module_Output_Voltage:
             _protocolCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
             buildFrameId();
             return 1;
             break;
-        case Module_Output_Current:
+        case MessageIdRequest::Module_Output_Current:
             _protocolCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
             buildFrameId();
             return 1;
             break;
-        case Module_Modify_Group:
+        case MessageIdRequest::Module_Modify_Group:
             _protocolCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
             buildFrameId();
             return 1;
             break;
-        case Query_Single_Module_Info:
+        case MessageIdRequest::Query_Single_Module_Info:
             _protocolCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
@@ -178,79 +177,79 @@ int SinexcelSer1000::buildFrameId()
     return 1;
 }
 
-int SinexcelSer1000::updateData(int cmd, int32_t value)
+int SinexcelSer1000::updateData(int msgId, int32_t value)
 {
-    switch (cmd)
+    switch (msgId)
     {
-        case Module_On_Off_32:
+        case MessageIdRequest::Module_On_Off_32:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x02;
-            _msgId[1] = 0x30;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_On_Off_64:
+        case MessageIdRequest::Module_On_Off_64:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x02;
-            _msgId[1] = 0x32;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_Online_Status_32:
+        case MessageIdRequest::Module_Online_Status_32:
             _msgType = 0x50;
             _errType = 0xF0;
-            _msgId[0] = 0xFF;
-            _msgId[1] = 0xFE;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_Online_Status_64:
+        case MessageIdRequest::Module_Online_Status_64:
             _msgType = 0x50;
             _errType = 0xF0;
-            _msgId[0] = 0xFF;
-            _msgId[1] = 0xFF;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;     
-        case Module_Voltage_Mode:
+        case MessageIdRequest::Module_Voltage_Mode:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x02;
-            _msgId[1] = 0x33;
+            _msgId[0] = (msgId & 0xFF00) >> 8;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_Output_Voltage:
+        case MessageIdRequest::Module_Output_Voltage:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x0;
-            _msgId[1] = 0x21;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_Output_Current:
+        case MessageIdRequest::Module_Output_Current:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x0;
-            _msgId[1] = 0x22;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Module_Modify_Group:
+        case MessageIdRequest::Module_Modify_Group:
             _msgType = 0x03;
             _errType = 0xF0;
-            _msgId[0] = 0x0;
-            _msgId[1] = 0x1A;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(value);
             return 1;
             break;
-        case Query_Single_Module_Info:
+        case MessageIdRequest::Query_Single_Module_Info:
             _msgType = 0x50;
             _errType = 0xF0;
-            _msgId[0] = 0x02;
-            _msgId[1] = 0x02;
+            _msgId[0] = (msgId & 0xFF00) >> 8 ;
+            _msgId[1] = msgId & 0x00FF;
             buildData(0);
             return 1;
             break;
@@ -291,4 +290,77 @@ int SinexcelSer1000::getData(int destination[], size_t arrSize)
         status = 1;
     }
     return status;
+}
+
+/**
+ * [int] filterExtended
+ * @param id lowest id range
+ * @param mask mask value
+ * @return
+ * 
+ * To determine the mask value :
+ * 1. Write the list of id that need to pass the filter
+ * 2. XNOR bitwise each of ID
+ * 3. Bitwise Not the result of the step 2
+ * 
+ * Example 1:
+ * List ID:
+ * ID 1 : 0b1110000000000000011100000000
+ * ID 2 : 0b1011000000000000011100000000
+ * XNOR : 0b1010111111111111111111111111
+ * MASK : 0b0101000000000000000000000000
+ * 
+ * This will get id range from 0b1110000000000000011100000000 - 0b1110001111111111111111111111
+ * Example 2 :
+ * List ID:
+ * ID 1 : 0b1110000000000000011100000000
+ * ...
+ * ID X : 0b1110001111111111111111111111
+ * XNOR : 0b1010110000000000000000000000
+ * MASK : 0b0101001111111111111111111111
+*/
+
+int SinexcelSer1000::filterExtended(long id, long mask)
+{
+    // uint32_t temp;
+    // temp = mask;
+    id &= 0x1FFFFFFF;
+    // temp = ~(temp & 0x1FFFFFFF);
+    Serial.print("ID Filter : ");
+    Serial.println(id, BIN);
+
+    Serial.print("Mask Filter : ");
+    Serial.println(mask, BIN);
+
+    // mask = temp;
+
+    modifyRegister(REG_MOD, 0x17, 0x01); // reset
+
+    writeRegister(REG_ACRn(0), id >> 21);
+    writeRegister(REG_ACRn(1), id >> 13);
+    writeRegister(REG_ACRn(2), id >> 5);
+    writeRegister(REG_ACRn(3), id << 5);
+
+    writeRegister(REG_AMRn(0), mask >> 21);
+    writeRegister(REG_AMRn(1), mask >> 13);
+    writeRegister(REG_AMRn(2), mask >> 5);
+    writeRegister(REG_AMRn(3), (mask << 5) | 0x1f);
+
+    modifyRegister(REG_MOD, 0x17, 0x00); // normal
+
+    return 1;
+}
+
+void SinexcelSer1000::modifyRegister(uint8_t address, uint8_t mask, uint8_t value)
+{
+  volatile uint32_t* reg = (volatile uint32_t*)(REG_BASE + address * 4);
+
+  *reg = (*reg & ~mask) | value;
+}
+
+void SinexcelSer1000::writeRegister(uint8_t address, uint8_t value)
+{
+  volatile uint32_t* reg = (volatile uint32_t*)(REG_BASE + address * 4);
+
+  *reg = value;
 }
