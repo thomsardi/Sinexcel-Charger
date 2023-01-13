@@ -24,8 +24,13 @@ unsigned long previousTime;
 int schedulerTime = 100; //100ms
 
 bool isFirstRun = true;
+uint msgCount;
 
 ChargerParam chargerParam[numOfCharger];
+RawDataCharger rawDataChargerStorage[64];
+Vector<RawDataCharger> rawDataChargerList(rawDataChargerStorage);
+
+DataCharger dataCharger[8][63];
 
 void onReceive(int _packetSize) 
 {
@@ -50,7 +55,7 @@ void test()
   {
     // Serial.print(" and length ");
     // Serial.println(packetSize);
-    
+    msgCount++;
     size_t index = 0;
     while (sinexcelSer1000.available()) {
       data[index] = sinexcelSer1000.read();
@@ -65,8 +70,8 @@ void test()
     if((packetId & softwareIdMask) == softwareIdFilter)
     {
       // Serial.println("ID Found");
-      float outputVoltage;
-      float outputCurrent;
+      int32_t voltage;
+      int32_t current;
       int groupNumber = (packetId & 0b11111000000) >> 6;
       int subAddress = (packetId & 0b111111);
       int monitorGroup = (packetId & 0b1111100000000000000000) >> 17;
@@ -86,27 +91,51 @@ void test()
           {
             case MessageIdResponse::Module_Operating_Status:
               // Serial.println("0x0202");
+
+
               break;
             case MessageIdResponse::Module_DC_Status:
               // Serial.println("0x0203");
+
               break;
             case MessageIdResponse::Module_AC_Status:
               // Serial.println("0x0204");
+
               break;
             case MessageIdResponse::Module_Output_Voltage:
+
               // Serial.println("0x0205");
               // outputVoltage = static_cast<float>(msgContent / 10);
-              outputVoltage = (msgContent / 10);
-              Serial.println("Monitor Group : " + String(monitorGroup));
-              Serial.println("Output Voltage : " + String(outputVoltage) + " V");
+              // voltage = (msgContent / 10);
+              dataCharger[groupNumber][subAddress].msgCount = msgCount;
+              dataCharger[groupNumber][subAddress].groupNumber = groupNumber;
+              dataCharger[groupNumber][subAddress].subAddress = subAddress;
+              dataCharger[groupNumber][subAddress].monitorGroup = monitorGroup;
+              dataCharger[groupNumber][subAddress].monitorSubAddress = monitorSubAddress;
+              dataCharger[groupNumber][subAddress].voltage = msgContent;
+              // Serial.println("Monitor Group : " + String(monitorGroup));
+              // Serial.println("Monitor Subaddress : " + String(monitorSubAddress));
+              // Serial.println("Group : " + String(groupNumber));
+              // Serial.println("Subaddress : " + String(subAddress));
+              // Serial.println("Output Voltage : " + String(voltage) + " V");
               break;
             case MessageIdResponse::Module_Output_Current:
-              // Serial.println("0x0206");
-              // outputCurrent = static_cast<float>(msgContent / 100);
-              outputCurrent = (msgContent / 100);
-              Serial.println("Output Current : " + String(outputCurrent) + " A");
+
+              // current = (msgContent / 100);
+              dataCharger[groupNumber][subAddress].msgCount = msgCount;
+              dataCharger[groupNumber][subAddress].groupNumber = groupNumber;
+              dataCharger[groupNumber][subAddress].subAddress = subAddress;
+              dataCharger[groupNumber][subAddress].monitorGroup = monitorGroup;
+              dataCharger[groupNumber][subAddress].monitorSubAddress = monitorSubAddress;
+              dataCharger[groupNumber][subAddress].current = msgContent;
+              // Serial.println("Monitor Group : " + String(monitorGroup));
+              // Serial.println("Monitor Subaddress : " + String(monitorSubAddress));
+              // Serial.println("Group : " + String(groupNumber));
+              // Serial.println("Subaddress : " + String(subAddress));
+              // Serial.println("Output Current : " + String(current) + " A");
               break;
             case MessageIdResponse::Module_Version:
+
               // Serial.println("0x020A");
               break;
           }
@@ -119,7 +148,33 @@ void test()
 
 
 void test2()
-{
+{ 
+  float voltage,current;
+  for (size_t i = 0; i < 8; i++)
+  {
+    for (size_t j = 0; j < 63; j++)
+    {
+      if (dataCharger[i][j].groupNumber < 0)
+      {
+        continue;
+      }
+      else
+      {
+        voltage = dataCharger[i][j].voltage / 10;
+        current = dataCharger[i][j].current / 100;
+        Serial.println("Message Count : " + String(dataCharger[i][j].msgCount));
+        Serial.println("Monitor Group : " + String(dataCharger[i][j].monitorGroup));
+        Serial.println("Monitor Subaddress : " + String(dataCharger[i][j].monitorSubAddress));
+        Serial.println("Group : " + String(dataCharger[i][j].groupNumber));
+        Serial.println("Subaddress : " + String(dataCharger[i][j].subAddress));
+        Serial.println("Output Voltage : " + String(voltage) + " V");
+        Serial.println("Output Current : " + String(current) + " A");
+      }
+      
+    }
+    
+  }
+  
   if (Serial.available())
   {
     char inByte = Serial.read();
@@ -154,8 +209,11 @@ void test2()
   {
     if(((millis() - previousTime) > schedulerTime) || isFirstRun)
     {
-      sinexcelSer1000.sendRequest(MessageIdRequest::Query_Single_Module_Info,0,0,1);
-      previousTime = millis();
+      if(sinexcelSer1000.isSendQueueEmpty())
+      {
+        sinexcelSer1000.sendRequest(MessageIdRequest::Query_Single_Module_Info,0,0,1);
+        previousTime = millis();
+      }
       isFirstRun = false;
     }  
   }  

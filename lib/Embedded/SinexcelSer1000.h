@@ -42,6 +42,9 @@ class SinexcelSer1000 : public ESP32SJA1000Class{
         int32_t getFrameId();
         int getData(int destination[], size_t arrSize);
 
+        int isSendQueueEmpty();
+        int getSendQueueSize();
+
         using CANControllerClass::filterExtended;
         virtual int filterExtended(long id, long mask);
 

@@ -73,11 +73,15 @@ int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, 
     int _groupNumber, _subAddress;
     if(groupNumber > 30) //Broadcast Command
     {
-        _groupNumber = 0x1F;
+        _groupNumber = 31; // 0x1f is used as global broadcast
         _subAddress = 0;
     }
     else
     {
+        if(_subAddress > 63) //only 0 - 63 subaddresses are valid
+        {
+            return status;
+        }
         _groupNumber = groupNumber;
         _subAddress = subAddress;
     }
@@ -91,6 +95,21 @@ int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, 
         status = 1;
     }
     return status;
+}
+
+int SinexcelSer1000::isSendQueueEmpty()
+{
+    int queueSize = 0;
+    if(_commandList.size() <= 0)
+    {
+        queueSize = 1;
+    }
+    return queueSize;
+}
+
+int SinexcelSer1000::getSendQueueSize()
+{
+    return _commandList.size();
 }
 
 int SinexcelSer1000::updateFrameId(int msgId)

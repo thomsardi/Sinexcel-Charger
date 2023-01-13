@@ -64,6 +64,25 @@ struct RequestCommand {
     uint8_t subAddress;
 };
 
+struct RawDataCharger {
+    int msgId;
+    int monitorGroup;
+    int monitorSubAddress;
+    int groupNumber;
+    int subAddress;
+    int32_t msgContent;
+};
+
+struct DataCharger {
+    uint msgCount;
+    int monitorGroup = -1;
+    int monitorSubAddress = -1;
+    int groupNumber = -1;
+    int subAddress = -1;
+    int32_t current;
+    int32_t voltage;
+};
+
 struct DCOperatingStatus {
     int chargerInitStatus;
     int pfcSoftStartInit_1;
