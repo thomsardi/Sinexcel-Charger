@@ -1,3 +1,6 @@
+#ifndef SINEXCELSER1000_DATA_H
+#define SINEXCELSER1000_DATA_H
+
 namespace CommandType {
     enum CommandType {
         Module_On_Off_32 = 1,
@@ -64,6 +67,12 @@ struct RequestCommand {
     uint8_t subAddress;
 };
 
+struct ApiRequestCommand {
+    int groupNumber = -1;
+    int subAddress = -1;
+    int32_t value = -1;
+};
+
 struct RawDataCharger {
     int msgId;
     int monitorGroup;
@@ -74,7 +83,7 @@ struct RawDataCharger {
 };
 
 struct DataCharger {
-    uint msgCount;
+    uint16_t msgCount;
     int monitorGroup = -1;
     int monitorSubAddress = -1;
     int groupNumber = -1;
@@ -169,3 +178,5 @@ struct ChargerParam {
     int acVersionNumber;
     int dcVersionNumber;
 };
+
+#endif

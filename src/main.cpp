@@ -1,7 +1,33 @@
 #include <Arduino.h>
 #include <SinexcelSer1000.h>
+//Json Library
+#include <ArduinoJson.h>
+#include <AsyncJson.h>
+//Wifi Library
+#include <WiFi.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <HTTPClient.h>
+#include <ESPmDNS.h>
+#include <JsonManagerCharger.h>
 
 SinexcelSer1000 sinexcelSer1000;
+JsonManagerCharger jsonManagerCharger;
+
+const char *ssid = "RnD_Sundaya";
+const char *password = "sundaya22";
+
+// Set your Static IP address
+IPAddress local_ip(192, 168, 2, 150);
+// Set your Gateway IP address
+IPAddress gateway(192, 168, 2, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(192, 168, 2, 1);        // optional
+IPAddress secondaryDNS(119, 18, 156, 10);       // optional
+String hostName = "rms-battery1-rnd-room";
+String serverName = "http://192.168.2.132/mydatabase/";
+
+AsyncWebServer server(80);
 
 String commandLine;
 bool isComplete = false;
@@ -41,7 +67,7 @@ void onReceive(int _packetSize)
   packetSize = _packetSize;
 }
 
-void test()
+void canPacketProcess()
 {
   uint8_t data[8] = {0};
   // Serial.print("Received ");
@@ -148,7 +174,7 @@ void test()
 }
 
 
-void test2()
+void mainRoutine()
 { 
   float voltage,current;
   for (size_t i = 0; i < 8; i++)
@@ -262,7 +288,7 @@ void readCANPacket(void *parameter)
       if (xSemaphoreTake(xSinexcelObject, 1000) == pdTRUE)
       {
         // Serial.println("CAN Read Success");
-        test();
+        canPacketProcess();
         xSemaphoreGive(xSinexcelObject);
       }
     }
@@ -306,6 +332,165 @@ void setup() {
   }
   sinexcelSer1000.filterExtended(idFilter, idMask);
   sinexcelSer1000.onReceive(onReceive);
+
+  WiFi.disconnect(true);
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+  WiFi.mode(WIFI_MODE_NULL);
+  delay(100);
+  WiFi.setHostname(hostName.c_str());
+  WiFi.mode(WIFI_STA);
+  if (!WiFi.config(local_ip, gateway, subnet, primaryDNS, secondaryDNS))
+  {
+      Serial.println("STA Failed to configure");
+  }
+  WiFi.begin(ssid, password);
+
+  Serial.println("Connecting..");
+  int timeout = 0;
+  while(timeout < 10)
+  {
+      if (WiFi.status() != WL_CONNECTED)
+      {
+          // Serial2.print(".");
+          Serial.print(".");
+          delay(100);
+          timeout++;
+      }
+      else
+      {
+          Serial.println();
+          break;
+      }
+  }
+  delay(100); //wait a bit to stabilize voltage and current
+  if (!MDNS.begin(hostName.c_str())) {             // Start the mDNS responder for esp8266.local
+      Serial.println("Error setting up MDNS responder!");
+  }
+  Serial.println("mDNS responder started");
+  delay(100);
+  // Wire.begin(I2C_SDA, I2C_SCL);
+  // lcd.init();
+  // lcd.backlight();    
+  // lcd.clear();
+  if (timeout < 10)
+  {
+    Serial.println("");
+    Serial.print("Connected to ");
+    Serial.println(ssid);
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Subnet Mask: ");
+    Serial.println(WiFi.subnetMask());
+    Serial.print("Gateway IP: ");
+    Serial.println(WiFi.gatewayIP());
+    Serial.print("DNS 1: ");
+    Serial.println(WiFi.dnsIP(0));
+    Serial.print("DNS 2: ");
+    Serial.println(WiFi.dnsIP(1));
+    Serial.print("Hostname: ");
+    Serial.println(WiFi.getHostname());
+  }
+  else
+  {
+    Serial.println("WiFi Not Connected");
+  }
+
+  AsyncCallbackJsonWebHandler *setDataChargerHandler = new AsyncCallbackJsonWebHandler("/get-data-charger", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserDataCharger(input.c_str(), api);
+    if (status)
+    {
+      response = jsonManagerCharger.buildDataCharger(dataCharger[api.groupNumber][api.subAddress]);
+    }
+    else
+    {
+      int fail = -1;
+      response.replace(":status:", String(fail));
+    }
+    request->send(200, "application/json", response); });
+
+  AsyncCallbackJsonWebHandler *setVoltageHandler = new AsyncCallbackJsonWebHandler("/set-voltage", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserVoltage(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Voltage, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+
+  AsyncCallbackJsonWebHandler *setCurrentHandler = new AsyncCallbackJsonWebHandler("/set-current", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserCurrent(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Current, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+
+  AsyncCallbackJsonWebHandler *setModule32Handler = new AsyncCallbackJsonWebHandler("/set-module-32", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserModuleOnOff_32(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_On_Off_32, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+  
+  AsyncCallbackJsonWebHandler *setModule64Handler = new AsyncCallbackJsonWebHandler("/set-module-64", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserModuleOnOff_64(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_On_Off_64, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+
+  server.addHandler(setDataChargerHandler);
+  server.addHandler(setVoltageHandler);
+  server.addHandler(setCurrentHandler);
+  server.addHandler(setModule32Handler);
+  server.addHandler(setModule64Handler);
+  server.begin();
+  Serial.println("HTTP server started");
   previousTime = millis();
 }
 
@@ -315,7 +500,7 @@ void loop() {
   if(xSemaphoreTake(xSinexcelObject, 1000) == pdTRUE)
   {
     // Serial.println("Success get sinexcel obj");  
-    test2();
+    mainRoutine();
     xSemaphoreGive(xSinexcelObject);
   }
   else

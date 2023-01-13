@@ -47,7 +47,7 @@ int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, 
     }
     else
     {
-        if(_subAddress > 63) //only 0 - 63 subaddresses are valid
+        if(subAddress > 63 || subAddress < 0 || groupNumber < 0) //only 0 - 63 subaddresses are valid
         {
             return status;
         }
