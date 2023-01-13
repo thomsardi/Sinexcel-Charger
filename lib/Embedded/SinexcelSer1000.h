@@ -40,8 +40,9 @@ class SinexcelSer1000 : public ESP32SJA1000Class{
         // int sendRequest(int cmd, int32_t value, int groupNumber); //Group Broadcast command
         int sendRequest(int msgId, int32_t value, uint8_t groupNumber = 31, uint8_t subAddress = 0); //Point to Point command
         int32_t getFrameId();
+        int endPacket();
+        int loopback();
         int getData(int destination[], size_t arrSize);
-
         int isSendQueueEmpty();
         int getSendQueueSize();
 
@@ -59,6 +60,8 @@ class SinexcelSer1000 : public ESP32SJA1000Class{
         int moduleRequestOnOff_32(int frameId, int buffer[], size_t bufferLength);
         void modifyRegister(uint8_t address, uint8_t mask, uint8_t value);
         void writeRegister(uint8_t address, uint8_t value);
+        bool _loopback;
+        uint8_t readRegister(uint8_t address);
         int32_t _frameId = 0;
         uint8_t _protocolCode = 0;
         uint8_t _groupNumber = 0;

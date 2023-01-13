@@ -44,7 +44,7 @@ void onReceive(int _packetSize)
 void test()
 {
   uint8_t data[8] = {0};
-  Serial.print("Received ");
+  // Serial.print("Received ");
   // Serial.print("packet with id 0x");
   int32_t packetId = sinexcelSer1000.packetId();
   // Serial.print(packetId, HEX);
@@ -204,9 +204,13 @@ void test2()
     {
       sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Current, 1024);
     }
-    else if (commandLine == "module32")
+    else if (commandLine == "module32on")
     {
       sinexcelSer1000.sendRequest(MessageIdRequest::Module_On_Off_32, 0xFFFFFFFF);
+    }
+    else if (commandLine == "module32off")
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_On_Off_32, 0);
     }
     isComplete = false;
     commandLine = "";
