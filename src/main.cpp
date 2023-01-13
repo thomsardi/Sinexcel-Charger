@@ -25,6 +25,7 @@ int schedulerTime = 100; //100ms
 
 bool isFirstRun = true;
 uint msgCount;
+int address;
 
 ChargerParam chargerParam[numOfCharger];
 RawDataCharger rawDataChargerStorage[64];
@@ -188,6 +189,11 @@ void test2()
     }
   }
 
+  if(address > 1)
+  {
+    address = 1;
+  }
+  
   if(isComplete)
   {
     if (commandLine == "voltage")
@@ -211,7 +217,8 @@ void test2()
     {
       if(sinexcelSer1000.isSendQueueEmpty())
       {
-        sinexcelSer1000.sendRequest(MessageIdRequest::Query_Single_Module_Info,0,0,1);
+        sinexcelSer1000.sendRequest(MessageIdRequest::Query_Single_Module_Info,0,0,address);
+        address++;
         previousTime = millis();
       }
       isFirstRun = false;
