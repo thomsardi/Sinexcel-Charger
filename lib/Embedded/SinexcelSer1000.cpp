@@ -26,6 +26,15 @@ int SinexcelSer1000::run()
         isDataUpdated = updateData(rc.msgId, rc.value);
         if(isFrameUpdated && isDataUpdated)
         {
+            // Serial.print("0x");
+            // Serial.println(_frameId, HEX);
+            // for (size_t i = 0; i < 8; i++)
+            // {
+            //     Serial.print("0x");
+            //     Serial.print(_data[i],HEX);
+            //     Serial.print(",");
+            // }
+            // Serial.println();
             beginExtendedPacket(_frameId);
             write(_data, 8);
             status = endPacket();
@@ -107,10 +116,9 @@ int SinexcelSer1000::updateFrameId(int msgId)
             break;
         case MessageIdRequest::Module_Online_Status_32:
             _pCode = 0x2C;
-            _groupNumber = 0x700;
-            _subAddress = _groupNumber;
-            _monitorGroup = _groupNumber;
-            _monitorSubAddress = _subAddress;
+            _subAddress = 0;
+            _monitorGroup = 0x1c;
+            _monitorSubAddress = 0;
             _destinationAddr = (_groupNumber << 6) + _subAddress;
             _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
             buildFrameId(_pCode, _destinationAddr, _sourceAddr);
@@ -118,10 +126,9 @@ int SinexcelSer1000::updateFrameId(int msgId)
             break;
         case MessageIdRequest::Module_Online_Status_64:
             _pCode = 0x2C;
-            _groupNumber = 0x700;
-            _subAddress = _groupNumber;
-            _monitorGroup = _groupNumber;
-            _monitorSubAddress = _subAddress;
+            _subAddress = 0;
+            _monitorGroup = 0x1c;
+            _monitorSubAddress = 0;
             _destinationAddr = (_groupNumber << 6) + _subAddress;
             _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
             buildFrameId(_pCode, _destinationAddr, _sourceAddr);

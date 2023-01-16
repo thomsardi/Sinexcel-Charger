@@ -26,6 +26,8 @@ class JsonManagerCharger {
         int jsonParserDataCharger(const char* jsonInput, ApiRequestCommand &apiRequestCommand); // parse json data from data-charger url
         int jsonParserModuleOnOff_32(const char* jsonInput, ApiRequestCommand &apiRequestCommand); // parse json data from module-on-off-32 url
         int jsonParserModuleOnOff_64(const char* jsonInput, ApiRequestCommand &apiRequestCommand); // parse json data from module-on-off-64 url
+        int jsonParserModuleStatusOnline_32(const char* jsonInput, ApiRequestCommand &apiRequestCommand); // parse json data from module-on-off-64 url
+        int jsonParserModuleStatusOnline_64(const char* jsonInput, ApiRequestCommand &apiRequestCommand); // parse json data from module-on-off-64 url
         private :
         int getBit(int pos, int data);
 };

@@ -43,11 +43,13 @@ int32_t idFilter = 0xB000000;
 // int32_t idMask = 0xAE00000;
 int32_t idMask = 0x53FFFFF;
 int32_t softwareIdFilter = 0xE000000;
+int32_t softwareIdFilter2 = 0xB000000; 
 int32_t softwareIdMask = 0xE000000; // mask 
+int32_t softwareIdMask2 = 0xB000000;
 // int32_t idMask = 0xA3FE000;
 
 unsigned long previousTime;
-int schedulerTime = 100; //100ms
+int schedulerTime = 200; //100ms
 
 bool isFirstRun = true;
 uint msgCount;
@@ -58,6 +60,17 @@ RawDataCharger rawDataChargerStorage[64];
 Vector<RawDataCharger> rawDataChargerList(rawDataChargerStorage);
 
 DataCharger dataCharger[8][63];
+
+int getBit(int pos, int data)
+{
+  if (pos > 32 & pos < 0)
+  {
+    return -1;
+  }
+  int temp = data >> pos;
+  temp = temp & 0x01;
+  return temp;
+}
 
 void onReceive(int _packetSize) 
 {
@@ -73,7 +86,7 @@ void canPacketProcess()
   // Serial.print("Received ");
   // Serial.print("packet with id 0x");
   int32_t packetId = sinexcelSer1000.packetId();
-  // Serial.print(packetId, HEX);
+  // Serial.println(packetId, HEX);
   if (sinexcelSer1000.packetRtr()) {
     // Serial.print(" and requested length ");
     // Serial.println(sinexcelSer1000.packetDlc());
@@ -94,7 +107,7 @@ void canPacketProcess()
     // only print packet data for non-RTR packets
     // Serial.println();
 
-    if((packetId & softwareIdMask) == softwareIdFilter)
+    if((packetId & softwareIdMask) == softwareIdFilter || (packetId & softwareIdMask2) == softwareIdFilter2)
     {
       // Serial.println("ID Found");
       int32_t voltage;
@@ -166,6 +179,35 @@ void canPacketProcess()
               // Serial.println("0x020A");
               break;
           }
+          break;
+        case MessageType::Query_Controller:
+            Serial.println("Query Module Online");
+            switch (msgId)
+            {
+              case MessageIdRequest::Module_Online_Status_32 :
+                Serial.println("Module Online 32 Case");
+                for (size_t i = 0; i < 32; i++)
+                {
+                  if (getBit(i, msgContent))
+                  {
+                    Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i));
+                  }
+                  
+                }
+                
+                break;
+              case MessageIdRequest::Module_Online_Status_64 :
+                Serial.println("Module Online 64 Case");
+                for (size_t i = 0; i < 32; i++)
+                {
+                  if (getBit(i, msgContent))
+                  {
+                    Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i+31));
+                  }
+                  
+                }
+                break;  
+            }
           break;
       } 
     }
@@ -484,11 +526,47 @@ void setup() {
     response.replace(":status:", String(status));
     request->send(200, "application/json", response); });
 
+  AsyncCallbackJsonWebHandler *setModuleOnlineStatus32Handler = new AsyncCallbackJsonWebHandler("/scan-module-32", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserModuleStatusOnline_32(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Online_Status_32, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+
+  AsyncCallbackJsonWebHandler *setModuleOnlineStatus64Handler = new AsyncCallbackJsonWebHandler("/scan-module-64", [](AsyncWebServerRequest *request, JsonVariant &json)
+  {
+    String response = R"(
+    {
+    "status" : :status:
+    }
+    )";
+    String input = json.as<String>();
+    ApiRequestCommand api;
+    int status = jsonManagerCharger.jsonParserModuleStatusOnline_64(input.c_str(), api);
+    if (status)
+    {
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Online_Status_64, api.value, api.groupNumber, api.subAddress);
+    }
+    response.replace(":status:", String(status));
+    request->send(200, "application/json", response); });
+
   server.addHandler(setDataChargerHandler);
   server.addHandler(setVoltageHandler);
   server.addHandler(setCurrentHandler);
   server.addHandler(setModule32Handler);
   server.addHandler(setModule64Handler);
+  server.addHandler(setModuleOnlineStatus32Handler);
+  server.addHandler(setModuleOnlineStatus64Handler);
   server.begin();
   Serial.println("HTTP server started");
   previousTime = millis();
@@ -506,5 +584,5 @@ void loop() {
   {
     // Serial.println("failed to get sinexcel obj");
   }
-  // delay(100);
+  delay(50);
 }

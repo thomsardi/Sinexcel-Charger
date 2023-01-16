@@ -47,6 +47,8 @@ namespace MessageIdResponse {
         Module_Output_Voltage = 0x0205,
         Module_Output_Current = 0x0206,
         Module_Version = 0x020a,
+        Module_Online_Status_32 = 0xfffe,
+        Module_Online_Status_64 = 0xffff,
     };
 }
 

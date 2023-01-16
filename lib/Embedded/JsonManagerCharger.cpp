@@ -177,6 +177,64 @@ int JsonManagerCharger::jsonParserModuleOnOff_64(const char* jsonInput, ApiReque
 }
 
 
+int JsonManagerCharger::jsonParserModuleStatusOnline_32(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
+{
+    ApiRequestCommand api;
+    StaticJsonDocument<128> doc;
+    DeserializationError error = deserializeJson(doc, jsonInput);
+    if (error)
+    {
+        Serial.print("deserializeJson() failed: ");
+        Serial.println(error.c_str());
+        return -1;
+    }
+
+    if(!doc.containsKey("group"))
+    {
+        return -1;
+    }
+    
+    int groupNumber = doc["group"];
+
+    if (groupNumber < 0 || groupNumber > 30)
+    {
+        return -1;
+    }
+    
+    apiRequestCommand.groupNumber = groupNumber;
+    apiRequestCommand.subAddress = 0;
+    apiRequestCommand.value = 0;
+    return 1;
+}
+int JsonManagerCharger::jsonParserModuleStatusOnline_64(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
+{
+    ApiRequestCommand api;
+    StaticJsonDocument<128> doc;
+    DeserializationError error = deserializeJson(doc, jsonInput);
+    if (error)
+    {
+        Serial.print("deserializeJson() failed: ");
+        Serial.println(error.c_str());
+        return -1;
+    }
+
+    if(!doc.containsKey("group"))
+    {
+        return -1;
+    }
+    
+    int groupNumber = doc["group"];
+
+    if (groupNumber < 0 || groupNumber > 30)
+    {
+        return -1;
+    }
+    
+    apiRequestCommand.groupNumber = groupNumber;
+    apiRequestCommand.subAddress = 0;
+    apiRequestCommand.value = 0;
+    return 1;
+}
 
 int JsonManagerCharger::getBit(int pos, int data)
 {
