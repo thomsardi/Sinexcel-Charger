@@ -51,7 +51,7 @@ int schedulerTime = 100; //100ms
 
 bool isFirstRun = true;
 uint msgCount;
-int address;
+int address = 1;
 
 ChargerParam chargerParam[numOfCharger];
 RawDataCharger rawDataChargerStorage[64];
@@ -496,7 +496,6 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
   if(xSemaphoreTake(xSinexcelObject, 1000) == pdTRUE)
   {
     // Serial.println("Success get sinexcel obj");  
@@ -507,5 +506,5 @@ void loop() {
   {
     // Serial.println("failed to get sinexcel obj");
   }
-  delay(100);
+  // delay(100);
 }

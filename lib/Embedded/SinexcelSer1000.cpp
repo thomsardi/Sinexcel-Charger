@@ -5,7 +5,7 @@ SinexcelSer1000::SinexcelSer1000()
 {
     _loopback = false;
     _commandList.setStorage(_requestCommand);
-    _protocolCode = 0x38; //SER1000 protocol code for upper controller
+    _pCode = 0x38; //SER1000 protocol code for upper controller
     _monitorGroup = 0x1C;
     _monitorSubAddress = 0;
     _msgType = 0x03;
@@ -86,72 +86,90 @@ int SinexcelSer1000::updateFrameId(int msgId)
     switch (msgId)
     {
         case MessageIdRequest::Module_On_Off_32:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _subAddress = 0;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_On_Off_64:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _subAddress = 0;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_Online_Status_32:
-            _protocolCode = 0x2C;
+            _pCode = 0x2C;
+            _groupNumber = 0x700;
             _subAddress = _groupNumber;
             _monitorGroup = _groupNumber;
-            _groupNumber = 0x1C;
             _monitorSubAddress = _subAddress;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_Online_Status_64:
-            _protocolCode = 0x2C;
+            _pCode = 0x2C;
+            _groupNumber = 0x700;
             _subAddress = _groupNumber;
             _monitorGroup = _groupNumber;
-            _groupNumber = 0x1C;
             _monitorSubAddress = _subAddress;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;    
         case MessageIdRequest::Module_Voltage_Mode:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_Output_Voltage:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_Output_Current:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Module_Modify_Group:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
         case MessageIdRequest::Query_Single_Module_Info:
-            _protocolCode = 0x38;
+            _pCode = 0x38;
             _monitorGroup = 0x1c;
             _monitorSubAddress = 0;
-            buildFrameId();
+            _destinationAddr = (_groupNumber << 6) + _subAddress;
+            _sourceAddr = (_monitorGroup << 6) + _monitorSubAddress;
+            buildFrameId(_pCode, _destinationAddr, _sourceAddr);
             return 1;
             break;
     }
@@ -159,9 +177,10 @@ int SinexcelSer1000::updateFrameId(int msgId)
     return -1;
 }
 
-int SinexcelSer1000::buildFrameId()
+int SinexcelSer1000::buildFrameId(int protocolCode, int destinationAddr, int sourceAddr)
 {
-    _frameId = (_protocolCode << 22) + (_groupNumber << 17) + (_subAddress << 11) + (_monitorGroup << 6) + _monitorSubAddress;
+    _frameId = (protocolCode << 22) + (destinationAddr << 11) + sourceAddr;
+    // _frameId = (_pCode << 22) + (_groupNumber << 17) + (_subAddress << 11) + (_monitorGroup << 6) + _monitorSubAddress;
     return 1;
 }
 
