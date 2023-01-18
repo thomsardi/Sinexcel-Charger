@@ -62,14 +62,14 @@ int JsonManagerCharger::jsonParserVoltage(const char* jsonInput, ApiRequestComma
         return -1;
     }
 
-    if(!doc.containsKey("group") || !doc.containsKey("subaddress") || !doc.containsKey("value"))
+    if(!doc.containsKey("group") || !doc.containsKey("subaddress") || !doc.containsKey("voltage"))
     {
         return -1;
     }
     
     int groupNumber = doc["group"];
     int subAddress = doc["subaddress"];
-    int value = doc["value"];
+    int32_t value = doc["voltage"];
 
     if (groupNumber < 0 || groupNumber > 31 || subAddress < 0 || subAddress > 63)
     {
@@ -94,14 +94,14 @@ int JsonManagerCharger::jsonParserCurrent(const char* jsonInput, ApiRequestComma
         return -1;
     }
 
-    if(!doc.containsKey("group") || !doc.containsKey("subaddress") || !doc.containsKey("value"))
+    if(!doc.containsKey("group") || !doc.containsKey("subaddress") || !doc.containsKey("current"))
     {
         return -1;
     }
     
     int groupNumber = doc["group"];
     int subAddress = doc["subaddress"];
-    int value = doc["value"];
+    int32_t value = doc["current"];
 
     if (groupNumber < 0 || groupNumber > 31 || subAddress < 0 || subAddress > 63)
     {
@@ -132,7 +132,7 @@ int JsonManagerCharger::jsonParserModuleOnOff_32(const char* jsonInput, ApiReque
     }
     
     int groupNumber = doc["group"];
-    int value = doc["value"];
+    int32_t value = doc["value"];
 
     if (groupNumber < 0 || groupNumber > 30)
     {
@@ -163,7 +163,7 @@ int JsonManagerCharger::jsonParserModuleOnOff_64(const char* jsonInput, ApiReque
     }
     
     int groupNumber = doc["group"];
-    int value = doc["value"];
+    int32_t value = doc["value"];
 
     if (groupNumber < 0 || groupNumber > 30)
     {

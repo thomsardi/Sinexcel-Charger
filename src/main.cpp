@@ -33,6 +33,8 @@ String commandLine;
 bool isComplete = false;
 
 const int numOfCharger = 3;
+const int sinexcelChargerReferenceCurrent = 20; // 20 A
+const int sinexcelChargercurrentMultiplier = 1024;
 int packetSize = 0;
 
 SemaphoreHandle_t xCANReceived = NULL;
@@ -59,7 +61,7 @@ ChargerParam chargerParam[numOfCharger];
 RawDataCharger rawDataChargerStorage[64];
 Vector<RawDataCharger> rawDataChargerList(rawDataChargerStorage);
 
-DataCharger dataCharger[8][63];
+DataCharger dataCharger[32][64];
 
 int getBit(int pos, int data)
 {
@@ -181,31 +183,31 @@ void canPacketProcess()
           }
           break;
         case MessageType::Query_Controller:
-            Serial.println("Query Module Online");
+            // Serial.println("Query Module Online");
             switch (msgId)
             {
               case MessageIdRequest::Module_Online_Status_32 :
-                Serial.println("Module Online 32 Case");
-                for (size_t i = 0; i < 32; i++)
-                {
-                  if (getBit(i, msgContent))
-                  {
-                    Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i));
-                  }
+                // Serial.println("Module Online 32 Case");
+                // for (size_t i = 0; i < 32; i++)
+                // {
+                //   if (getBit(i, msgContent))
+                //   {
+                //     Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i));
+                //   }
                   
-                }
+                // }
                 
                 break;
               case MessageIdRequest::Module_Online_Status_64 :
-                Serial.println("Module Online 64 Case");
-                for (size_t i = 0; i < 32; i++)
-                {
-                  if (getBit(i, msgContent))
-                  {
-                    Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i+31));
-                  }
+                // Serial.println("Module Online 64 Case");
+                // for (size_t i = 0; i < 32; i++)
+                // {
+                //   if (getBit(i, msgContent))
+                //   {
+                //     Serial.println("Found Module in Group " + String(groupNumber) + " Subaddress " + String(i+31));
+                //   }
                   
-                }
+                // }
                 break;  
             }
           break;
@@ -218,31 +220,31 @@ void canPacketProcess()
 
 void mainRoutine()
 { 
-  float voltage,current;
-  for (size_t i = 0; i < 8; i++)
-  {
-    for (size_t j = 0; j < 63; j++)
-    {
-      if (dataCharger[i][j].groupNumber < 0)
-      {
-        continue;
-      }
-      else
-      {
-        voltage = dataCharger[i][j].voltage / 10;
-        current = dataCharger[i][j].current / 100;
-        Serial.println("Message Count : " + String(dataCharger[i][j].msgCount));
-        Serial.println("Monitor Group : " + String(dataCharger[i][j].monitorGroup));
-        Serial.println("Monitor Subaddress : " + String(dataCharger[i][j].monitorSubAddress));
-        Serial.println("Group : " + String(dataCharger[i][j].groupNumber));
-        Serial.println("Subaddress : " + String(dataCharger[i][j].subAddress));
-        Serial.println("Output Voltage : " + String(voltage) + " V");
-        Serial.println("Output Current : " + String(current) + " A");
-      }
+  // float voltage,current;
+  // for (size_t i = 0; i < 8; i++)
+  // {
+  //   for (size_t j = 0; j < 63; j++)
+  //   {
+  //     if (dataCharger[i][j].groupNumber < 0)
+  //     {
+  //       continue;
+  //     }
+  //     else
+  //     {
+  //       voltage = dataCharger[i][j].voltage / 10;
+  //       current = dataCharger[i][j].current / 100;
+  //       Serial.println("Message Count : " + String(dataCharger[i][j].msgCount));
+  //       Serial.println("Monitor Group : " + String(dataCharger[i][j].monitorGroup));
+  //       Serial.println("Monitor Subaddress : " + String(dataCharger[i][j].monitorSubAddress));
+  //       Serial.println("Group : " + String(dataCharger[i][j].groupNumber));
+  //       Serial.println("Subaddress : " + String(dataCharger[i][j].subAddress));
+  //       Serial.println("Output Voltage : " + String(voltage) + " V");
+  //       Serial.println("Output Current : " + String(current) + " A");
+  //     }
       
-    }
+  //   }
     
-  }
+  // }
   
   if (Serial.available())
   {
@@ -257,7 +259,7 @@ void mainRoutine()
     }
   }
 
-  if(address > 1)
+  if(address > 3)
   {
     address = 1;
   }
@@ -453,8 +455,10 @@ void setup() {
     }
     else
     {
-      int fail = -1;
-      response.replace(":status:", String(fail));
+      DataCharger dc;
+      response = jsonManagerCharger.buildDataCharger(dc);
+      // int fail = -1;
+      // response.replace(":status:", String(fail));
     }
     request->send(200, "application/json", response); });
 
@@ -470,7 +474,9 @@ void setup() {
     int status = jsonManagerCharger.jsonParserVoltage(input.c_str(), api);
     if (status)
     {
-      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Voltage, api.value, api.groupNumber, api.subAddress);
+      int32_t dcVoltage = api.value / 100;
+      // Serial.println(dcVoltage);
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Voltage, dcVoltage, api.groupNumber, api.subAddress);
     }
     response.replace(":status:", String(status));
     request->send(200, "application/json", response); });
@@ -487,7 +493,9 @@ void setup() {
     int status = jsonManagerCharger.jsonParserCurrent(input.c_str(), api);
     if (status)
     {
-      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Current, api.value, api.groupNumber, api.subAddress);
+      int32_t dcCurrent = ((api.value * sinexcelChargercurrentMultiplier) / (1000*sinexcelChargerReferenceCurrent));
+      // Serial.println(dcCurrent);
+      sinexcelSer1000.sendRequest(MessageIdRequest::Module_Output_Current, dcCurrent, api.groupNumber, api.subAddress);
     }
     response.replace(":status:", String(status));
     request->send(200, "application/json", response); });
