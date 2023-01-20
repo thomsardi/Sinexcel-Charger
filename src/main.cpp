@@ -57,11 +57,29 @@ bool isFirstRun = true;
 uint msgCount;
 int address = 1;
 
-ChargerParam chargerParam[numOfCharger];
-RawDataCharger rawDataChargerStorage[64];
-Vector<RawDataCharger> rawDataChargerList(rawDataChargerStorage);
+// int maxGroup = 16;
+// int maxSubAddress = 32;
+// int subModuleBytesSize = sizeof(DataCharger) * maxSubAddress;
+// int dataChargerBytesSize = sizeof(DataCharger);
+// DataCharger *dataCharger = (DataCharger*)malloc(dataChargerBytesSize*maxGroup*maxSubAddress);
+// DataCharger *baseAddr = dataCharger;
 
-DataCharger dataCharger[32][64];
+
+DataCharger dataCharger[16][32];
+
+// void declareDataCharger()
+// {
+//   DataCharger *pDc;
+//   pDc = baseAddr + (0*subModuleBytesSize) + (1*dataChargerBytesSize); //group 0, subaddress 1
+//   pDc->msgCount = 100;
+//   pDc->outputVoltage = 5000;
+//   pDc->outputCurrent = 2000;
+//   pDc = baseAddr + (0*subModuleBytesSize) + (2*dataChargerBytesSize); //group 0, subaddress 1
+//   pDc->msgCount = 200;
+//   pDc->outputVoltage = 10000;
+//   pDc->outputCurrent = 4000;
+// }
+
 
 int getBit(int pos, int data)
 {
@@ -112,8 +130,11 @@ void canPacketProcess()
     if((packetId & softwareIdMask) == softwareIdFilter || (packetId & softwareIdMask2) == softwareIdFilter2)
     {
       // Serial.println("ID Found");
+      // DataCharger *pDc;
+
       int32_t voltage;
       int32_t current;
+      int value;
       int groupNumber = (packetId & 0b11111000000) >> 6;
       int subAddress = (packetId & 0b111111);
       int monitorGroup = (packetId & 0b1111100000000000000000) >> 17;
@@ -133,28 +154,50 @@ void canPacketProcess()
           {
             case MessageIdResponse::Module_Operating_Status:
               // Serial.println("0x0202");
-
+              dataCharger[groupNumber][subAddress].dcOperatingStatus = data[4] << 8 + data[5];
+              dataCharger[groupNumber][subAddress].acOperatingStatus = data[6] << 8 + data[7];
 
               break;
             case MessageIdResponse::Module_DC_Status:
               // Serial.println("0x0203");
-
+              dataCharger[groupNumber][subAddress].dcStatus_2 = data[4] << 8 + data[5];
+              dataCharger[groupNumber][subAddress].dcStatus_1 = data[6] << 8 + data[7];
+              dataCharger[groupNumber][subAddress].moduleOff = getBit(9, msgContent);
               break;
             case MessageIdResponse::Module_AC_Status:
               // Serial.println("0x0204");
-
+              dataCharger[groupNumber][subAddress].acStatus_2 = data[4] << 8 + data[5];
+              dataCharger[groupNumber][subAddress].acStatus_1 = data[6] << 8 + data[7];
               break;
             case MessageIdResponse::Module_Output_Voltage:
 
               // Serial.println("0x0205");
               // outputVoltage = static_cast<float>(msgContent / 10);
               // voltage = (msgContent / 10);
+              
+              // pDc = baseAddr + (groupNumber*subModuleBytesSize) + (dataChargerBytesSize*subAddress);
+              // pDc->msgCount = msgCount;
+              // pDc->groupNumber = groupNumber;
+              // pDc->subAddress = subAddress;
+              // pDc->monitorGroup = monitorGroup;
+              // pDc->monitorSubAddress = monitorSubAddress;
+              // pDc->outputVoltage = msgContent;
+              
+              
+              // Serial.println("Monitor Group : " + String(*pDc->monitorGroup));
+              // Serial.println("Monitor Subaddress : " + String(*(pDc->monitorSubAddress)));
+              // Serial.println("Group : " + String(*(pDc->groupNumber)));
+              // Serial.println("Subaddress : " + String(*(pDc->subAddress)));
+              // Serial.println("Output Voltage : " + String(*(pDc->outputVoltage)) + " V");
+
               dataCharger[groupNumber][subAddress].msgCount = msgCount;
               dataCharger[groupNumber][subAddress].groupNumber = groupNumber;
               dataCharger[groupNumber][subAddress].subAddress = subAddress;
               dataCharger[groupNumber][subAddress].monitorGroup = monitorGroup;
               dataCharger[groupNumber][subAddress].monitorSubAddress = monitorSubAddress;
-              dataCharger[groupNumber][subAddress].voltage = msgContent;
+              dataCharger[groupNumber][subAddress].outputVoltage = msgContent;
+              
+              
               // Serial.println("Monitor Group : " + String(monitorGroup));
               // Serial.println("Monitor Subaddress : " + String(monitorSubAddress));
               // Serial.println("Group : " + String(groupNumber));
@@ -164,12 +207,30 @@ void canPacketProcess()
             case MessageIdResponse::Module_Output_Current:
 
               // current = (msgContent / 100);
+              
+              // pDc = baseAddr + (groupNumber*subModuleBytesSize) + (dataChargerBytesSize*subAddress);
+              // pDc->msgCount = msgCount;
+              // pDc->groupNumber = groupNumber;
+              // pDc->subAddress = subAddress;
+              // pDc->monitorGroup = monitorGroup;
+              // pDc->monitorSubAddress = monitorSubAddress;
+              // pDc->outputVoltage = msgContent;
+              
+              // Serial.println("Monitor Group : " + String(pDc->monitorGroup));
+              // Serial.println("Monitor Subaddress : " + String(pDc->monitorSubAddress));
+              // Serial.println("Group : " + String(pDc->groupNumber));
+              // Serial.println("Subaddress : " + String(pDc->subAddress));
+              // Serial.println("Output Current : " + String(pDc->outputCurrent) + " A");
+              
+              
               dataCharger[groupNumber][subAddress].msgCount = msgCount;
               dataCharger[groupNumber][subAddress].groupNumber = groupNumber;
               dataCharger[groupNumber][subAddress].subAddress = subAddress;
               dataCharger[groupNumber][subAddress].monitorGroup = monitorGroup;
               dataCharger[groupNumber][subAddress].monitorSubAddress = monitorSubAddress;
-              dataCharger[groupNumber][subAddress].current = msgContent;
+              dataCharger[groupNumber][subAddress].outputCurrent = msgContent;
+              
+              
               // Serial.println("Monitor Group : " + String(monitorGroup));
               // Serial.println("Monitor Subaddress : " + String(monitorSubAddress));
               // Serial.println("Group : " + String(groupNumber));
@@ -179,6 +240,8 @@ void canPacketProcess()
             case MessageIdResponse::Module_Version:
 
               // Serial.println("0x020A");
+              dataCharger[groupNumber][subAddress].acVersionNumber = data[4] << 8 + data[5];
+              dataCharger[groupNumber][subAddress].dcVersionNumber = data[6] << 8 + data[7];
               break;
           }
           break;
@@ -246,6 +309,17 @@ void mainRoutine()
     
   // }
   
+  // DataCharger *pDc;
+  // pDc = baseAddr + 0*subModuleBytesSize + 1*dataChargerBytesSize;
+  // Serial.println(pDc->msgCount);
+  // Serial.println(pDc->outputVoltage);
+  // Serial.println(pDc->outputCurrent);
+
+  // pDc = baseAddr + 1*subModuleBytesSize + 1*dataChargerBytesSize;
+  // Serial.println(pDc->msgCount);
+  // Serial.println(pDc->outputVoltage);
+  // Serial.println(pDc->outputCurrent);
+
   if (Serial.available())
   {
     char inByte = Serial.read();
@@ -343,6 +417,7 @@ void readCANPacket(void *parameter)
 
 void setup() {
   // put your setup code here, to run once:
+  // declareDataCharger();
   xCANReceived = xSemaphoreCreateBinary();
   xSinexcelObject = xSemaphoreCreateBinary();
 
@@ -448,9 +523,12 @@ void setup() {
     )";
     String input = json.as<String>();
     ApiRequestCommand api;
+    DataCharger *pDc;
     int status = jsonManagerCharger.jsonParserDataCharger(input.c_str(), api);
     if (status)
     {
+      // pDc = baseAddr + (api.groupNumber*maxSubAddress) + (api.subAddress*subModuleBytesSize);
+      // response = jsonManagerCharger.buildDataCharger(*pDc);
       response = jsonManagerCharger.buildDataCharger(dataCharger[api.groupNumber][api.subAddress]);
     }
     else

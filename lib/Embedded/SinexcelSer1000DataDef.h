@@ -75,25 +75,6 @@ struct ApiRequestCommand {
     int32_t value = -1;
 };
 
-struct RawDataCharger {
-    int msgId;
-    int monitorGroup;
-    int monitorSubAddress;
-    int groupNumber;
-    int subAddress;
-    int32_t msgContent;
-};
-
-struct DataCharger {
-    uint16_t msgCount;
-    int monitorGroup = -1;
-    int monitorSubAddress = -1;
-    int groupNumber = -1;
-    int subAddress = -1;
-    int32_t current;
-    int32_t voltage;
-};
-
 struct DCOperatingStatus {
     int chargerInitStatus;
     int pfcSoftStartInit_1;
@@ -116,69 +97,79 @@ struct ACOperatingStatus {
 };
 
 struct DCStatus_1 {
-    int outputOvervoltage;
-    int overTemperature;
-    int hardwareFailure;
-    int operatingMode;
-    int fanFailure;
-    int acLimitedState;
-    int temperatureDerating;
-    int powerLimitedState;
-    int moduleOn;
-    int ouputUndervoltage;
-    int moduleAddressConflict;
-    int currentImbalance;
-    int canCommFail;
+    bool outputOvervoltage;
+    bool overTemperature;
+    bool hardwareFailure;
+    bool operatingMode;
+    bool fanFailure;
+    bool acLimitedState;
+    bool temperatureDerating;
+    bool powerLimitedState;
+    bool moduleOn;
+    bool ouputUndervoltage;
+    bool moduleAddressConflict;
+    bool currentImbalance;
+    bool canCommFail;
 };
 
 struct DCStatus_2 {
-    int shortCircuit;
-    int currentImbalance_20s;
-    int alarmCapacity;
-    int failureCapacity;
+    bool shortCircuit;
+    bool currentImbalance_20s;
+    bool alarmCapacity;
+    bool failureCapacity;
 };
 
 struct ACStatus_1 {
-    int inputCurrentPhaseLoss;
-    int inputPhaseLoss_A;
-    int inputPhaseLoss_B;
-    int inputPhaseLoss_C;
-    int busOvervoltage;
-    int busUndervoltage;
-    int busVoltageImbalance;
-    int busVoltageImbalanceOverLimit;
-    int inputOverload;
-    int inputOverloadOverlimit;
-    int inputOvercurrent;
+    bool inputCurrentPhaseLoss;
+    bool inputPhaseLoss_A;
+    bool inputPhaseLoss_B;
+    bool inputPhaseLoss_C;
+    bool busOvervoltage;
+    bool busUndervoltage;
+    bool busVoltageImbalance;
+    bool busVoltageImbalanceOverLimit;
+    bool inputOverload;
+    bool inputOverloadOverlimit;
+    bool inputOvercurrent;
 };
 
 struct ACStatus_2 {
-    int inputOvervoltage;
-    int inputUndervoltage;
-    int inputOverfrequency;
-    int inputUnderfrequency;
-    int voltageImbalance;
-    int sidePhaseLockFailure;
-    int voltageFastPowerDown;
-    int abnormalInput;
-    int busOvervoltageManyTimes;
-    int wrongSoftwareVer;
-    int sciCommError;
+    bool inputOvervoltage;
+    bool inputUndervoltage;
+    bool inputOverfrequency;
+    bool inputUnderfrequency;
+    bool voltageImbalance;
+    bool sidePhaseLockFailure;
+    bool voltageFastPowerDown;
+    bool abnormalInput;
+    bool busOvervoltageManyTimes;
+    bool wrongSoftwareVer;
+    bool sciCommError;
 };
 
-struct ChargerParam {
-    int groupNumber;
-    int subAddress;
-    DCOperatingStatus dcOperatingStatus;
-    ACOperatingStatus acOperatingStatus;
-    DCStatus_1 dcStatus_1;
-    DCStatus_2 dcStatus_2;
-    ACStatus_1 acStatus_1;
-    ACStatus_2 acStatus_2;
+struct DataCharger {
+    uint16_t msgCount;
+    int monitorGroup = -1;
+    int monitorSubAddress = -1;
+    int groupNumber = -1;
+    int subAddress = -1;
+    int moduleOff = 1;
+    int dcOperatingStatus;
+    int acOperatingStatus;
+    int dcStatus_1;
+    int dcStatus_2;
+    int acStatus_1;
+    int acStatus_2;
     int32_t outputVoltage;
     int32_t outputCurrent;
     int acVersionNumber;
     int dcVersionNumber;
+    // DCOperatingStatus dcOperatingStatus;
+    // ACOperatingStatus acOperatingStatus;
+    // DCStatus_1 dcStatus_1;
+    // DCStatus_2 dcStatus_2;
+    // ACStatus_1 acStatus_1;
+    // ACStatus_2 acStatus_2;
 };
 
 #endif

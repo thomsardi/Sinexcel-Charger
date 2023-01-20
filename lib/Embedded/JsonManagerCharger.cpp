@@ -8,13 +8,22 @@ JsonManagerCharger::JsonManagerCharger()
 String JsonManagerCharger::buildDataCharger(const DataCharger &dataCharger)
 {
     String result;
-    StaticJsonDocument<128> doc; // for 8 object
+    StaticJsonDocument<256> doc; // for single object
     
-    doc["msgcount"] = dataCharger.msgCount;
+    doc["msg_count"] = dataCharger.msgCount;
     doc["group"] = dataCharger.groupNumber;
     doc["subaddress"] = dataCharger.subAddress;
-    doc["voltage"] = dataCharger.voltage;
-    doc["current"] = dataCharger.current;
+    doc["voltage"] = dataCharger.outputVoltage;
+    doc["current"] = dataCharger.outputCurrent;
+    doc["module_off"] = dataCharger.moduleOff;
+    doc["dc_operating_status"] = dataCharger.dcOperatingStatus;
+    doc["ac_operating_status"] = dataCharger.acOperatingStatus;
+    doc["dc_status_1"] = dataCharger.dcStatus_1;
+    doc["dc_status_2"] = dataCharger.dcStatus_2;
+    doc["ac_status_1"] = dataCharger.acStatus_1;
+    doc["ac_status_2"] = dataCharger.acStatus_2;
+    doc["ac_version"] = dataCharger.acVersionNumber;
+    doc["dc_version"] = dataCharger.dcVersionNumber;
     serializeJson(doc, result);
     return result;
 }

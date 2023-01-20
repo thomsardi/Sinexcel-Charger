@@ -1,0 +1,1279 @@
+{
+    "data_charger" : [
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 1,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 2,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 1,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 3,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 4,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 5,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 6,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 7,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 8,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 9,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 10,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 11,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 12,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 13,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 14,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 15,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        },
+        {
+            "msg_count" : 1,
+            "group" : 0,
+            "subaddress" : 16,
+            "voltage" : 4500,
+            "current" : 1000,
+            "module_off" : 0,
+            "dc_operating_status" : {
+                "charger_init" : 100,
+                "pfc_softstart_init_1" : 200,
+                "pfc_softstart_init_2" : 300,
+                "pfc_soft_start" : 400,
+                "dcdc_soft_start" : 500, 
+                "dcdc_soft_start_widening_stage" : 600,
+                "dcdc_soft_start_fm_stage" : 700,
+                "module_normal" : 800,
+                "module_shutdown" : 900
+            },
+            "ac_operating_status" : {
+                "init" : 1000,
+                "standby" : 1100,
+                "acdcSoftStart" : 1200,
+                "normal" : 1300,
+                "alarm" : 1400,
+                "monitorShutdown" : 1500
+
+            },
+            "dc_status_1" : {
+                "output_overvoltage" : 1,
+                "over_temperature" : 1,
+                "hardware_failure" : 0,
+                "operating_mode" : 0,
+                "fan_failure" : 1,
+                "ac_limited_state" : 1,
+                "temperature_derating" : 0,
+                "power_limited_state" : 0,
+                "module_on" : 1,
+                "ouput_undervoltage" : 1,
+                "module_address_conflict" : 0,
+                "current_imbalance" : 0,
+                "can_comm_fail" : 1
+            },
+            "dc_status_2" : {
+                "short_circuit" : 1,
+                "current_imbalance_20s" : 1,
+                "alarm_capacity" : 0,
+                "failure_capacity" : 0
+            },
+            "ac_status_1" : {
+                "input_current_phase_loss" : 1,
+                "input_phase_loss_a" : 1,
+                "input_phase_loss_b" : 0,
+                "input_phase_loss_c" : 0,
+                "bus_overvoltage" : 1,
+                "bus_undervoltage" : 1,
+                "bus_voltage_imbalance" : 0,
+                "bus_voltage_imbalance_over_limit" : 0,
+                "input_overload" : 1,
+                "input_overload_overlimit" : 1,
+                "input_overcurrent" : 0
+            },
+            "ac_status_2" : {
+                "input_overvoltage" : 1,
+                "input_undervoltage" : 1,
+                "input_overfrequency" : 0,
+                "input_underfrequency" : 0,
+                "voltage_imbalance" : 1,
+                "side_phase_lock_failure" : 1,
+                "voltage_fast_power_down" : 0,
+                "abnormal_input" : 0,
+                "bus_overvoltage_many_times" : 1,
+                "wrong_software_ver" : 1,
+                "sci_comm_error" : 0
+            }
+        }
+    ]
+}
