@@ -11,19 +11,30 @@
 #include <ESPmDNS.h>
 #include <JsonManagerCharger.h>
 
+#define LAMINATE_ROOM 1
+
 SinexcelSer1000 sinexcelSer1000;
 JsonManagerCharger jsonManagerCharger;
 
 const char *ssid = "RnD_Sundaya";
 const char *password = "sundaya22";
 
+#ifdef LAMINATE_ROOM
+    IPAddress local_ip(192, 168, 8, 150);
+    IPAddress gateway(192, 168, 8, 1);
+#else
+    // Set your Static IP address
+    IPAddress local_ip(192, 168, 2, 150);
+    IPAddress gateway(192, 168, 2, 1);
+#endif
+
+
 // Set your Static IP address
-IPAddress local_ip(192, 168, 2, 150);
 // Set your Gateway IP address
-IPAddress gateway(192, 168, 2, 1);
+
 IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(192, 168, 2, 1);        // optional
-IPAddress secondaryDNS(119, 18, 156, 10);       // optional
+// IPAddress primaryDNS(192, 168, 2, 1);        // optional
+// IPAddress secondaryDNS(119, 18, 156, 10);       // optional
 String hostName = "rms-battery1-rnd-room";
 String serverName = "http://192.168.2.132/mydatabase/";
 
@@ -458,7 +469,7 @@ void setup() {
   delay(100);
   WiFi.setHostname(hostName.c_str());
   WiFi.mode(WIFI_STA);
-  if (!WiFi.config(local_ip, gateway, subnet, primaryDNS, secondaryDNS))
+  if (!WiFi.config(local_ip, gateway, subnet))
   {
       Serial.println("STA Failed to configure");
   }
