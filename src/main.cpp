@@ -16,12 +16,12 @@
 SinexcelSer1000 sinexcelSer1000;
 JsonManagerCharger jsonManagerCharger;
 
-const char *ssid = "RnD_Sundaya";
+const char *ssid = "Laminate";
 const char *password = "sundaya22";
 
 #ifdef LAMINATE_ROOM
-    IPAddress local_ip(192, 168, 8, 150);
-    IPAddress gateway(192, 168, 8, 1);
+    IPAddress local_ip(200, 10, 2, 150);
+    IPAddress gateway(200, 10, 2, 1);
 #else
     // Set your Static IP address
     IPAddress local_ip(192, 168, 2, 150);
@@ -43,10 +43,14 @@ AsyncWebServer server(80);
 String commandLine;
 bool isComplete = false;
 
+int internalLed = 2;
 const int numOfCharger = 3;
 const int sinexcelChargerReferenceCurrent = 20; // 20 A
 const int sinexcelChargercurrentMultiplier = 1024;
 int packetSize = 0;
+
+unsigned long lastReconnectMillis;
+int reconnectInterval = 5000;
 
 SemaphoreHandle_t xCANReceived = NULL;
 SemaphoreHandle_t xSinexcelObject = NULL;
@@ -426,6 +430,38 @@ void readCANPacket(void *parameter)
   }
 }
 
+void WiFiGotIP(WiFiEvent_t event, WiFiEventInfo_t info){
+    Serial.print("Connected to ");
+    Serial.println(ssid);
+    Serial.print("IP address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Subnet Mask: ");
+    Serial.println(WiFi.subnetMask());
+    Serial.print("Gateway IP: ");
+    Serial.println(WiFi.gatewayIP());
+    Serial.print("DNS 1: ");
+    Serial.println(WiFi.dnsIP(0));
+    Serial.print("DNS 2: ");
+    Serial.println(WiFi.dnsIP(1));
+    Serial.print("Hostname: ");
+    Serial.println(WiFi.getHostname());
+    digitalWrite(internalLed, HIGH);
+}
+
+void WiFiStationConnected(WiFiEvent_t event, WiFiEventInfo_t info){
+    Serial.println("Wifi Connected");
+}
+
+void WiFiStationDisconnected(WiFiEvent_t event, WiFiEventInfo_t info){
+    digitalWrite(internalLed, LOW);
+    Serial.println("Disconnected from WiFi access point");
+    Serial.print("WiFi lost connection. Reason: ");
+    Serial.println(info.wifi_sta_disconnected.reason);
+    Serial.println("Trying to Reconnect");
+    // WiFi.begin(ssid, password);
+    WiFi.begin(ssid);
+}
+
 void setup() {
   // put your setup code here, to run once:
   // declareDataCharger();
@@ -455,7 +491,7 @@ void setup() {
     1
   );
   
-
+  pinMode(internalLed, OUTPUT);
   Serial.begin(115200);
   if (!sinexcelSer1000.begin(125E3)) {
     Serial.println("Starting CAN failed!");
@@ -473,7 +509,10 @@ void setup() {
   {
       Serial.println("STA Failed to configure");
   }
-  WiFi.begin(ssid, password);
+  // WiFi.begin(ssid, password);
+  WiFi.onEvent(WiFiStationConnected, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_CONNECTED);
+  WiFi.onEvent(WiFiGotIP, WiFiEvent_t::ARDUINO_EVENT_WIFI_STA_GOT_IP);
+  WiFi.begin(ssid);
 
   Serial.println("Connecting..");
   int timeout = 0;
@@ -671,6 +710,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if ((WiFi.status() != WL_CONNECTED) && (millis() - lastReconnectMillis >= reconnectInterval)) {
+        digitalWrite(internalLed, LOW);
+        Serial.println("Reconnecting to WiFi...");
+        WiFi.disconnect();
+        WiFi.reconnect();
+        lastReconnectMillis = millis();
+    }
+
   if(xSemaphoreTake(xSinexcelObject, 1000) == pdTRUE)
   {
     // Serial.println("Success get sinexcel obj");  
