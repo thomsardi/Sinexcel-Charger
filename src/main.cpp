@@ -16,7 +16,7 @@
 SinexcelSer1000 sinexcelSer1000;
 JsonManagerCharger jsonManagerCharger;
 
-const char *ssid = "Laminate";
+const char *ssid = "Ruang_Laminate";
 const char *password = "sundaya22";
 
 #ifdef LAMINATE_ROOM
