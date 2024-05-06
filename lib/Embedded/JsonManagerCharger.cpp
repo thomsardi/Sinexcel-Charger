@@ -5,6 +5,11 @@ JsonManagerCharger::JsonManagerCharger()
 
 }
 
+/**
+ * Build sinexcel data
+ * 
+ * @param[in]   dataCharger DataCharger struct
+*/
 String JsonManagerCharger::buildDataCharger(const DataCharger &dataCharger)
 {
     String result;
@@ -28,6 +33,12 @@ String JsonManagerCharger::buildDataCharger(const DataCharger &dataCharger)
     return result;
 }
 
+/**
+ * Parse json post data charger and convert into ApiRequestCommand to send via CAN-bus
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserDataCharger(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -59,6 +70,12 @@ int JsonManagerCharger::jsonParserDataCharger(const char* jsonInput, ApiRequestC
     return 1;
 }
 
+/**
+ * Parse json post voltage data charger and convert into ApiRequestCommand to send via CAN-bus
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserVoltage(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -91,6 +108,12 @@ int JsonManagerCharger::jsonParserVoltage(const char* jsonInput, ApiRequestComma
     return 1;
 }
 
+/**
+ * Parse json post current data charger and convert into ApiRequestCommand to send via CAN-bus
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserCurrent(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -123,6 +146,12 @@ int JsonManagerCharger::jsonParserCurrent(const char* jsonInput, ApiRequestComma
     return 1;
 }
 
+/**
+ * Parse json post module on / off for first 1 - 32 address and convert into ApiRequestCommand to send via CAN-bus
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserModuleOnOff_32(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -154,6 +183,12 @@ int JsonManagerCharger::jsonParserModuleOnOff_32(const char* jsonInput, ApiReque
     return 1;
 }
 
+/**
+ * Parse json post module on / off for address 33 - 64 and convert into ApiRequestCommand to send via CAN-bus
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserModuleOnOff_64(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -185,7 +220,13 @@ int JsonManagerCharger::jsonParserModuleOnOff_64(const char* jsonInput, ApiReque
     return 1;
 }
 
-
+/**
+ * Parse json post module online for address 1 - 32 and convert into ApiRequestCommand to send via CAN-bus
+ * @brief   to check the number of connected module
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserModuleStatusOnline_32(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -215,6 +256,14 @@ int JsonManagerCharger::jsonParserModuleStatusOnline_32(const char* jsonInput, A
     apiRequestCommand.value = 0;
     return 1;
 }
+
+/**
+ * Parse json post module online for address 33 - 64 and convert into ApiRequestCommand to send via CAN-bus
+ * @brief   to check the number of connected module
+ * 
+ * @param[in]   jsonInput   json formatted string
+ * @param[in]   apiRequestCommand   ApiRequestCommand struct
+*/
 int JsonManagerCharger::jsonParserModuleStatusOnline_64(const char* jsonInput, ApiRequestCommand &apiRequestCommand)
 {
     ApiRequestCommand api;
@@ -245,6 +294,12 @@ int JsonManagerCharger::jsonParserModuleStatusOnline_64(const char* jsonInput, A
     return 1;
 }
 
+/**
+ * Get bit on certain position
+ * 
+ * @param[in]   pos     position of bit (bit 0 - 7)
+ * @param[in]   data    data to evaluate
+*/
 int JsonManagerCharger::getBit(int pos, int data)
 {
   if (pos > 7 & pos < 0)

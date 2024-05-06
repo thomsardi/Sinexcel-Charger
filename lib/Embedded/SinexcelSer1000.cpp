@@ -1,6 +1,9 @@
 
 #include <SinexcelSer1000.h>
 
+/**
+ * Constructor class and default init
+*/
 SinexcelSer1000::SinexcelSer1000()
 {
     _loopback = false;
@@ -12,6 +15,11 @@ SinexcelSer1000::SinexcelSer1000()
     _errType = 0xF0;
 }
 
+/**
+ * Run the class, call this method periodically
+ * 
+ * @return  status  1 on success
+*/
 int SinexcelSer1000::run()
 {
     int isFrameUpdated, isDataUpdated;
@@ -44,6 +52,15 @@ int SinexcelSer1000::run()
     return status;
 }
 
+/**
+ * Send into CAN bus
+ * 
+ * @param[in]   msgId   message id
+ * @param[in]   value   value to be sent
+ * @param[in]   groupNumber group destination
+ * @param[in]   subAddress  subAddress destination
+ * @return  status 1 on success
+*/
 int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, uint8_t subAddress)
 {
     RequestCommand rc;
@@ -75,6 +92,11 @@ int SinexcelSer1000::sendRequest(int msgId, int32_t value, uint8_t groupNumber, 
     return status;
 }
 
+/**
+ * Check the send queue
+ * 
+ * @return  number of queue
+*/
 int SinexcelSer1000::isSendQueueEmpty()
 {
     int queueSize = 0;
@@ -85,11 +107,23 @@ int SinexcelSer1000::isSendQueueEmpty()
     return queueSize;
 }
 
+/**
+ * Get the send queue
+ * 
+ * @return  number of queue
+*/
 int SinexcelSer1000::getSendQueueSize()
 {
     return _commandList.size();
 }
 
+/**
+ * create frame ID
+ * 
+ * @param[in]   msgId   message id request, refer to DataDef.h MessageIdRequest enum
+ * 
+ * @return  1 on success, -1 when failed
+*/
 int SinexcelSer1000::updateFrameId(int msgId)
 {
     switch (msgId)
@@ -184,6 +218,15 @@ int SinexcelSer1000::updateFrameId(int msgId)
     return -1;
 }
 
+/**
+ * Build frame ID
+ * 
+ * @param[in]   protocolCode    protocol code, based on hardware code
+ * @param[in]   destinationAddr address of target
+ * @param[in]   sourceAddr      source address of upper controller
+ * 
+ * @return  1 on success
+*/
 int SinexcelSer1000::buildFrameId(int protocolCode, int destinationAddr, int sourceAddr)
 {
     _frameId = (protocolCode << 22) + (destinationAddr << 11) + sourceAddr;
@@ -191,6 +234,14 @@ int SinexcelSer1000::buildFrameId(int protocolCode, int destinationAddr, int sou
     return 1;
 }
 
+/**
+ * Update when received data
+ * 
+ * @param[in]   msgId   message id request, refer to DataDef.h MessageIdRequest enum
+ * @param[in]   value   value received
+ * 
+ * @return  1 on success
+*/
 int SinexcelSer1000::updateData(int msgId, int32_t value)
 {
     switch (msgId)
@@ -274,6 +325,13 @@ int SinexcelSer1000::updateData(int msgId, int32_t value)
     return -1;
 }
 
+/**
+ * build the received value into 8 array
+ * 
+ * @param[in]   value   received 32-bit value of CAN bus
+ * 
+ * @return  1 on success
+*/
 int SinexcelSer1000::buildData(int32_t value)
 {
     _data[0] = _msgType;
@@ -287,11 +345,24 @@ int SinexcelSer1000::buildData(int32_t value)
     return 1;
 }
 
+/**
+ * get frame id
+ * 
+ * @return  frame id
+*/
 int32_t SinexcelSer1000::getFrameId()
 {
     return _frameId;
 }
 
+/**
+ * get data
+ * 
+ * @param[in]   destination buffer to copy the 8 byte array
+ * @param[in]   arrSize buffer array size
+ * 
+ * @return  1 on success
+*/
 int SinexcelSer1000::getData(int destination[], size_t arrSize)
 {
     int status = -1;
@@ -365,6 +436,9 @@ int SinexcelSer1000::filterExtended(long id, long mask)
     return 1;
 }
 
+/**
+ * origin method of CAN bus controller, refer to ESP32 CAN
+*/
 void SinexcelSer1000::modifyRegister(uint8_t address, uint8_t mask, uint8_t value)
 {
   volatile uint32_t* reg = (volatile uint32_t*)(REG_BASE + address * 4);
